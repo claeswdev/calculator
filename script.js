@@ -2,6 +2,9 @@ let leftOperand = 0;
 let rightOperand = 0;
 let operator = "";
 
+const container = document.querySelector(".container");
+const leftColumn = document.querySelector(".left-column");
+const rightColumn = document.querySelector(".right-column");
 function add(a, b) {
     return a + b;
 }
@@ -28,6 +31,50 @@ function operate(operator, leftOperand, rightOperand) {
         default: console.log("Error. Not a valid operator");
     }
 }
+
+function seedNumberButtons() {
+    for (let i = 9; i >= 1; i--) {
+        const numberButton = document.createElement("button");
+        numberButton.textContent = i;
+        numberButton.style.cssText = "width: 100px; height: 100px;";
+        leftColumn.append(numberButton);
+    }
+}
+seedNumberButtons();
+
+function seedLowerRow() {
+    const comma = document.createElement("button");
+    comma.textContent = ".";
+    comma.style.cssText = "width: 100px; height: 100px";
+    leftColumn.append(comma);
+    
+    const zero = document.createElement("button");
+    zero.textContent = "0";
+    zero.style.cssText = "width: 200px; height: 100px";
+    leftColumn.append(zero);
+}
+seedLowerRow();
+
+function seedRightColumn() {
+    const plus = document.createElement("button");
+    const minus = document.createElement("button");
+    const multiply = document.createElement("button");
+    const divide = document.createElement("button");
+
+    plus.textContent = "+";
+    minus.textContent = "-";
+    multiply.textContent = "*";
+    divide.textContent = "/";
+
+
+
+    const rightColumnButtons = [plus, minus, multiply, divide];
+    rightColumnButtons.forEach(item => {
+        item.style.cssText = "width: 100px; height: 100px";
+        rightColumn.append(item);
+    });
+}
+seedRightColumn();
 
 console.log("10 + 5 = ", operate("+", 10, 5));
 console.log("10 - 5 = ", operate("-", 10, 5));

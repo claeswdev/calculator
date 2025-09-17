@@ -32,6 +32,13 @@ function operate(operator, leftOperand, rightOperand) {
     }
 }
 
+const display = document.createElement("div");
+const displayText = document.createElement("div");
+displayText.textContent = 123.45;
+display.style.cssText = "width: 300px; height: 100px; display: flex; justify-content: flex-end; align-items: center; font-size: 48px; padding-right: 8px;"
+display.appendChild(displayText);
+leftColumn.appendChild(display);
+
 function seedNumberButtons() {
     for (let i = 9; i >= 1; i--) {
         const numberButton = document.createElement("button");
@@ -60,15 +67,17 @@ function seedRightColumn() {
     const minus = document.createElement("button");
     const multiply = document.createElement("button");
     const divide = document.createElement("button");
+    const equals = document.createElement("button");
 
     plus.textContent = "+";
     minus.textContent = "-";
     multiply.textContent = "*";
     divide.textContent = "/";
+    equals.textContent = "=";
 
 
 
-    const rightColumnButtons = [plus, minus, multiply, divide];
+    const rightColumnButtons = [equals, plus, minus, multiply, divide];
     rightColumnButtons.forEach(item => {
         item.style.cssText = "width: 100px; height: 100px";
         rightColumn.append(item);

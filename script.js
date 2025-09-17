@@ -50,15 +50,19 @@ function seedNumberButtons() {
 seedNumberButtons();
 
 function seedLowerRow() {
-    const comma = document.createElement("button");
-    comma.textContent = ".";
-    comma.style.cssText = "width: 100px; height: 100px";
-    leftColumn.append(comma);
-    
+    const equals = document.createElement("button");
     const zero = document.createElement("button");
+    const comma = document.createElement("button");
+    
+    equals.textContent = "=";
     zero.textContent = "0";
-    zero.style.cssText = "width: 200px; height: 100px";
-    leftColumn.append(zero);
+    comma.textContent = ".";
+
+    const bottomRow = [equals, zero, comma];
+    bottomRow.forEach(item => {
+        item.style.cssText = "width: 100px; height: 100px";
+        leftColumn.append(item);
+    })
 }
 seedLowerRow();
 
@@ -67,17 +71,15 @@ function seedRightColumn() {
     const minus = document.createElement("button");
     const multiply = document.createElement("button");
     const divide = document.createElement("button");
-    const equals = document.createElement("button");
+    const clear = document.createElement("button");
 
     plus.textContent = "+";
     minus.textContent = "-";
     multiply.textContent = "*";
     divide.textContent = "/";
-    equals.textContent = "=";
+    clear.textContent = "C";
 
-
-
-    const rightColumnButtons = [equals, plus, minus, multiply, divide];
+    const rightColumnButtons = [plus, minus, multiply, divide, clear];
     rightColumnButtons.forEach(item => {
         item.style.cssText = "width: 100px; height: 100px";
         rightColumn.append(item);

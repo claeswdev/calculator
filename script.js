@@ -66,7 +66,7 @@ function seedBottomRow() {
 
     equals.addEventListener("click", () => {
         const result = operate(operator, leftOperand, rightOperand);
-        display.firstChild.textContent = result;
+        updateDisplay(result);
         leftOperand = result;
         console.log("leftOperand:", leftOperand);
         rightOperand = "";
@@ -96,27 +96,15 @@ function seedRightColumn() {
     divide.textContent = "/";
     clear.textContent = "C";
 
-    plus.addEventListener("click", () => {
-        operator = plus.textContent;
-        console.log(" operator is +")
-    });
-    minus.addEventListener("click", () => {
-        operator = minus.textContent;
-        console.log(" operator is -")
-    });
-    multiply.addEventListener("click", () => {
-        operator = multiply.textContent;
-        console.log(" operator is *")
-    });
-    divide.addEventListener("click", () => {
-        operator = divide.textContent;
-        console.log(" operator is /")
-    });
+    plus.addEventListener("click", () => resolveOperatorButtonPress(plus));
+    minus.addEventListener("click", () => resolveOperatorButtonPress(minus));
+    multiply.addEventListener("click", () => resolveOperatorButtonPress(multiply));
+    divide.addEventListener("click", () => resolveOperatorButtonPress(divide));
     clear.addEventListener("click", () => {
         operator = "";
         leftOperand = "";
         rightOperand = "";
-        display.firstChild.textContent = "0";
+        updateDisplay(0);
         console.log("Memory is cleared");
     });
 
@@ -126,6 +114,20 @@ function seedRightColumn() {
         item.style.cssText = "width: 100px; height: 100px";
         rightColumn.append(item);
     });
+
+    function resolveOperatorButtonPress(op) {
+        if (rightOperand) {
+            const result = operate(operator, leftOperand, rightOperand);
+            updateDisplay(result);
+            leftOperand = result;
+            console.log("leftOperand:", leftOperand);
+            rightOperand = "";
+            console.log("rightOperand:", rightOperand);
+            operator = op;
+        }
+        operator = op.textContent;
+        console.log(" operator is ", op.textContent);
+    }
 }
 
 function addDigitToDisplay(digitBtn) {
@@ -139,4 +141,8 @@ function addDigitToDisplay(digitBtn) {
         display.firstChild.textContent = leftOperand;
         console.log("left operand: " + leftOperand);
     }
+}
+
+function updateDisplay(newValue) {
+    display.firstChild.textContent = newValue;
 }

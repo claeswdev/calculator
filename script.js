@@ -30,7 +30,11 @@ function multiply(a, b) {
 }
 
 function divide(a, b) {
-    if (b === 0) alert("You can't divide by 0!");
+    if (b == 0) {
+        alert("You can't divide by 0!");
+        resetOperationState();
+        return "";
+    }
     return a / b;
 }
 
@@ -65,13 +69,15 @@ function seedBottomRow() {
     comma.textContent = ".";
 
     equals.addEventListener("click", () => {
+        if (!rightOperand) return;
+
         const result = operate(operator, leftOperand, rightOperand);
-        updateDisplay(result);
-        leftOperand = result;
+        if (result === "") updateDisplay();
+        else updateDisplay(result);
+
+        resetOperationState()
         console.log("leftOperand:", leftOperand);
-        rightOperand = "";
         console.log("rightOperand:", rightOperand);
-        operator = "";
         console.log("operator:", operator);
     });
     zero.addEventListener("click", () => addDigitToDisplay(zero));
@@ -101,10 +107,8 @@ function seedRightColumn() {
     multiply.addEventListener("click", () => resolveOperatorButtonPress(multiply));
     divide.addEventListener("click", () => resolveOperatorButtonPress(divide));
     clear.addEventListener("click", () => {
-        operator = "";
-        leftOperand = "";
-        rightOperand = "";
-        updateDisplay(0);
+        resetOperationState();
+        updateDisplay();
         console.log("Memory is cleared");
     });
 
@@ -133,16 +137,31 @@ function seedRightColumn() {
 function addDigitToDisplay(digitBtn) {
     if (operator) {
         rightOperand += digitBtn.textContent;
-        display.firstChild.textContent = rightOperand;
+        updateDisplay(rightOperand);
         console.log("right operand: " + rightOperand);
     }
     else {
         leftOperand += digitBtn.textContent;
-        display.firstChild.textContent = leftOperand;
+        updateDisplay(leftOperand);
         console.log("left operand: " + leftOperand);
     }
 }
 
-function updateDisplay(newValue) {
-    display.firstChild.textContent = newValue;
+function updateDisplay(newValue = 0) {
+    if (hasDecimals(newValue)) {
+        display.firstChild.textContent = Number(newValue).toFixed(2);
+    }
+    else {
+        display.firstChild.textContent = newValue;
+    }
+}
+
+function hasDecimals(num) {
+    return num % 1 !== 0;
+}
+
+function resetOperationState() {
+    leftOperand = "";
+    rightOperand = "";
+    operator = "";
 }

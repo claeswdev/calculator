@@ -36,10 +36,10 @@ function divide(a, b) {
 
 function init() {
     const displayText = document.createElement("div");
-    displayText.textContent = 123.45;
+    displayText.textContent = 0;
     display.appendChild(displayText);
     leftColumn.appendChild(display);
-    
+
     seedDigitButtons();
     seedBottomRow();
     seedRightColumn();
@@ -50,19 +50,7 @@ function seedDigitButtons() {
         const digitButton = document.createElement("button");
         digitButton.textContent = i;
         digitButton.style.cssText = "width: 100px; height: 100px;";
-        digitButton.addEventListener("click", () => {
-            if (operator) {
-                rightOperand += digitButton.textContent;
-                display.firstChild.textContent = rightOperand;                
-                console.log("right operand: " + rightOperand);
-
-            }
-            else {
-                leftOperand += digitButton.textContent;
-                display.firstChild.textContent = leftOperand;
-                console.log("left operand: " + leftOperand);
-            }
-        })
+        digitButton.addEventListener("click", () => addDigitToDisplay(digitButton))
         leftColumn.append(digitButton);
     }
 }
@@ -86,6 +74,7 @@ function seedBottomRow() {
         operator = "";
         console.log("operator:", operator);
     });
+    zero.addEventListener("click", () => addDigitToDisplay(zero));
 
     const bottomRow = [equals, zero, comma];
     bottomRow.forEach(item => {
@@ -130,11 +119,24 @@ function seedRightColumn() {
         display.firstChild.textContent = "0";
         console.log("Memory is cleared");
     });
-    
+
 
     const rightColumnButtons = [plus, minus, multiply, divide, clear];
     rightColumnButtons.forEach(item => {
         item.style.cssText = "width: 100px; height: 100px";
         rightColumn.append(item);
     });
+}
+
+function addDigitToDisplay(digitBtn) {
+    if (operator) {
+        rightOperand += digitBtn.textContent;
+        display.firstChild.textContent = rightOperand;
+        console.log("right operand: " + rightOperand);
+    }
+    else {
+        leftOperand += digitBtn.textContent;
+        display.firstChild.textContent = leftOperand;
+        console.log("left operand: " + leftOperand);
+    }
 }

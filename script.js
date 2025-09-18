@@ -3,23 +3,22 @@ let rightOperand = "";
 let operator = "";
 
 const container = document.querySelector(".container");
+const display = document.querySelector(".display");
 const leftColumn = document.querySelector(".left-column");
 const rightColumn = document.querySelector(".right-column");
 
 init();
 
 function operate(operator, leftOperand, rightOperand) {
-    switch (operator) {
-        case "+": return add(leftOperand, rightOperand);
-        case "-": return subtract(leftOperand, rightOperand);
-        case "*": return multiply(leftOperand, rightOperand);
-        case "/": return divide(leftOperand, rightOperand);
-        default: console.log("Error. Not a valid operator");
-    }
+    if (operator === "+") return add(leftOperand, rightOperand);
+    else if (operator === "-") return subtract(leftOperand, rightOperand);
+    else if (operator === "*") return multiply(leftOperand, rightOperand);
+    else if (operator === "/") return divide(leftOperand, rightOperand);
+    else console.log("Error, invalid operation");
 }
 
 function add(a, b) {
-    return a + b;
+    return Number(a) + Number(b);
 }
 
 function subtract(a, b) {
@@ -36,10 +35,8 @@ function divide(a, b) {
 }
 
 function init() {
-    const display = document.createElement("div");
     const displayText = document.createElement("div");
     displayText.textContent = 123.45;
-    display.style.cssText = "width: 300px; height: 100px; display: flex; justify-content: flex-end; align-items: center; font-size: 48px; padding-right: 8px;"
     display.appendChild(displayText);
     leftColumn.appendChild(display);
     
@@ -54,9 +51,17 @@ function seedDigitButtons() {
         digitButton.textContent = i;
         digitButton.style.cssText = "width: 100px; height: 100px;";
         digitButton.addEventListener("click", () => {
-            if (operator) rightOperand += digitButton.textContent;
-            else leftOperand += digitButton.textContent;
-            console.log("left operand: " + leftOperand);
+            if (operator) {
+                rightOperand += digitButton.textContent;
+                display.firstChild.textContent = rightOperand;                
+                console.log("right operand: " + rightOperand);
+
+            }
+            else {
+                leftOperand += digitButton.textContent;
+                display.firstChild.textContent = leftOperand;
+                console.log("left operand: " + leftOperand);
+            }
         })
         leftColumn.append(digitButton);
     }
@@ -70,6 +75,17 @@ function seedBottomRow() {
     equals.textContent = "=";
     zero.textContent = "0";
     comma.textContent = ".";
+
+    equals.addEventListener("click", () => {
+        const result = operate(operator, leftOperand, rightOperand);
+        display.firstChild.textContent = result;
+        leftOperand = result;
+        console.log("leftOperand:", leftOperand);
+        rightOperand = "";
+        console.log("rightOperand:", rightOperand);
+        operator = "";
+        console.log("operator:", operator);
+    });
 
     const bottomRow = [equals, zero, comma];
     bottomRow.forEach(item => {
@@ -90,6 +106,31 @@ function seedRightColumn() {
     multiply.textContent = "*";
     divide.textContent = "/";
     clear.textContent = "C";
+
+    plus.addEventListener("click", () => {
+        operator = plus.textContent;
+        console.log(" operator is +")
+    });
+    minus.addEventListener("click", () => {
+        operator = minus.textContent;
+        console.log(" operator is -")
+    });
+    multiply.addEventListener("click", () => {
+        operator = multiply.textContent;
+        console.log(" operator is *")
+    });
+    divide.addEventListener("click", () => {
+        operator = divide.textContent;
+        console.log(" operator is /")
+    });
+    clear.addEventListener("click", () => {
+        operator = "";
+        leftOperand = "";
+        rightOperand = "";
+        display.firstChild.textContent = "0";
+        console.log("Memory is cleared");
+    });
+    
 
     const rightColumnButtons = [plus, minus, multiply, divide, clear];
     rightColumnButtons.forEach(item => {
